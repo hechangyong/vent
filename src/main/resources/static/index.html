@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>发泄窗口</title>
     <link rel="stylesheet" href="css/ventMain.css">
+    <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript">
         //
         window.onload = function () {
@@ -21,17 +22,30 @@
                     alert("消息不能为空");
                     return;
                 }
-                if (Who.value == 0) {
-                    //如果Who.value为0n那么是 A说
-                    str = '<div class="atalk"><span>   TalkWords.value  </span></div>';
-                }
-                else {
-                    str = '<div class="btalk"><span>  TalkWords.value  </span></div>';
-                }
+                str = '<div class="btalk"><span>  ' + TalkWords.value + ' </span></div>';
+
                 // 将之前的内容与要发的内容拼接好 提交
                 Words.innerHTML = Words.innerHTML + str;
+
+                sendMessage(TalkWords.value);
             }
 
+        }
+
+
+        function sendMessage(msg) {
+            $.ajax({
+                type: "post",
+                url: '/sendMessage',
+                data: {"msg": msg},
+                dataType: "text",
+                success: function (data) {
+                    var str = "";
+                    var Words = document.getElementById("words");
+                    str = '<div class="atalk"><span>  ' + data + ' </span></div>';
+                    Words.innerHTML = Words.innerHTML + str;
+                }
+            });
         }
 
 
@@ -46,10 +60,10 @@
 
     </div>
     <div class="talk_input">
-        <select class="whotalk" id="who">
-            <option value="0">A说：</option>
-            <option value="1">B说：</option>
-        </select>
+        <!--<select class="whotalk" id="who">-->
+            <!--<option value="0">A说：</option>-->
+            <!--<option value="1">B说：</option>-->
+        <!--</select>-->
         <input type="text" class="talk_word" id="talkwords">
         <input type="button" value="发送" class="talk_sub" id="talksub">
     </div>
