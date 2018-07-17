@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.vent.bean.BaiduTokenMapper">
+
+    <select id="getOne" resultType="BaiduToken">
+        SELECT
+        ID as id,
+        token as token,
+        session_key as session_key,
+        scope as scope,
+        refresh_token as refresh_token,
+        session_secret as session_secret,
+        expires_in as expires_in,
+        date as date
+        FROM baiduToken
+        WHERE ID = #{id}
+    </select>
+    <update id="update">
+        UPDATE baiduToken
+        SET token = #{baiduToken.token}
+        WHERE ID = #{token.id}
+    </update>
+    <insert id="insert">
+        INSERT INTO
+        baiduToken(id, token, session_key, expires_in ,date)
+        VALUES (
+        #{baiduToken.id},
+        #{baiduToken.token},
+        #{baiduToken.session_key},
+        #{baiduToken.expires_in},
+        #{baiduToken.date}
+        )
+    </insert>
+    <delete id="delete">
+        DELETE baiduToken WHERE ID = #{id}
+    </delete>
+
+</mapper>

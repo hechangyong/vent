@@ -1,7 +1,6 @@
 package com.im.vent.controller;
 
 
-import com.im.vent.baiduapi.bean.BaiduInfo;
 import com.im.vent.server.MyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
