@@ -19,11 +19,12 @@ public class MyController {
 
     @PostMapping("/sendMessage")
     public String sendMessage(@RequestParam(value = "msg") String msg) {
-        Long startTime = System.currentTimeMillis();
+//        Long startTime = System.currentTimeMillis();
         logger.info("msg: " + msg);
-        server.getReplyByBaidu(msg);
-        Long endTime = System.currentTimeMillis();
-        return "耗时： " + (startTime - endTime) + " ";
+        return server.getReturnMsgfromBaidu(msg);
+
+//        Long endTime = System.currentTimeMillis();
+//        return "耗时： " + (startTime - endTime) + " ";
     }
 
 

@@ -1,6 +1,7 @@
 package com.im.vent.server;
 
 import com.im.vent.baiduapi.AuthService;
+import com.im.vent.baiduapi.UnitService;
 import com.im.vent.baiduapi.bean.BaiduInfo;
 import com.im.vent.bean.BaiduToken;
 import com.im.vent.bean.BaiduTokenMapper;
@@ -21,9 +22,12 @@ public class MyServer {
     BaiduInfo baiduInfo;
 
     @Autowired
+    UnitService unitService;
+
+    @Autowired
     private BaiduTokenMapper baiduTokenMapper;
 
-    public BaiduToken getReplyByBaidu(String msg) {
+    public BaiduToken getBaiduToken(String msg) {
         BaiduToken msgs = AuthService.getAuth(baiduInfo.getAk(), baiduInfo.getSk());
         baiduTokenMapper.insert(msgs);
         BaiduToken s = baiduTokenMapper.getOne(msgs.getId());
@@ -33,4 +37,9 @@ public class MyServer {
     }
 
 
+    public String getReturnMsgfromBaidu(String msg) {
+        String userid = "88888";
+            String accessToken =  "24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509";
+        return unitService.utterance(msg, userid, accessToken );
+    }
 }

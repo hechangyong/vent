@@ -1,11 +1,17 @@
 package com.im.vent.baiduapi;
 
+import com.google.gson.JsonArray;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.stereotype.Component;
+
 /**
  * Created by hecy on 2018/7/18.
  */
 /*
  * unit对话服务
  */
+@Component
 public class UnitService {
     /**
      * 重要提示代码中所需工具类
@@ -16,7 +22,7 @@ public class UnitService {
      * https://ai.baidu.com/file/470B3ACCA3FE43788B5A963BF0B625F3
      * 下载
      */
-    private static String utterance(String msg, String user_id, String token) {
+    public String utterance(String msg, String user_id, String token) {
         // 请求URL
         String talkUrl = "https://aip.baidubce.com/rpc/2.0/unit/bot/chat";
         try {
@@ -43,8 +49,15 @@ public class UnitService {
                     "}";
 //            String accessToken =  "24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509";
             String result = HttpUtil.post(talkUrl, token, "application/json", params);
-            return result;
-        } catch (Exception e) {
+            JSONObject jsonObject = new JSONObject(result);
+
+            JSONObject jsonObject1 = jsonObject.getJSONObject("response");
+            JSONArray jsonArray =  jsonObject1.getJSONArray("action_list");
+            JSONObject jsonArray0 =  jsonArray.getJSONObject(0);
+            return (String) jsonArray0.get("say");
+
+
+         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -52,6 +65,6 @@ public class UnitService {
     public static void main(String[] args) {
 
 
-           utterance("烦","001","");
+//           utterance("烦","001","");
     }
 }
