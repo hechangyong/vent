@@ -24,11 +24,13 @@
     </update>
     <insert id="insert">
         INSERT INTO
-        baiduToken(id, token, session_key, expires_in ,date)
+        baiduToken(id, token, session_key,  refresh_token,session_secret,expires_in ,date)
         VALUES (
         #{baiduToken.id},
         #{baiduToken.token},
         #{baiduToken.session_key},
+        #{baiduToken.refresh_token},
+        #{baiduToken.session_secret},
         #{baiduToken.expires_in},
         #{baiduToken.date}
         )
