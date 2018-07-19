@@ -42,14 +42,23 @@ public class MyServer {
     }
 
 
-    public void saveMessage(MessageInfo messageInfo) {
-        messageInfoMapper.insertMessageinfo(messageInfo);
-    }
+
 
 
     public String getReturnMsgfromBaidu(String msg) {
         String userid = "88888";
             String accessToken =  "24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509";
-        return unitService.utterance(msg, userid, accessToken );
+        return unitService.utterance(msg, userid, accessToken);
+    }
+
+    public int saveMessage(MessageInfo messageInfo) {
+        return messageInfoMapper.insertMessageinfo(messageInfo);
+    }
+
+    public void updateMessageById(Long id, String baiduReply) {
+        MessageInfo messageInfo = new MessageInfo();
+        messageInfo.setId(id);
+        messageInfo.setReplymsg(baiduReply);
+        messageInfoMapper.update(messageInfo);
     }
 }

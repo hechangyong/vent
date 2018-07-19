@@ -9,7 +9,7 @@ public interface MessageInfoMapper {
 //    private String ip;
 //    private String replymsg;
 
-    @Insert({ "insert into messageinfo(message, ip, replymsg, create_time) values(#{message}, #{ip}, #{replymsg}, #{createTime, jdbcType=TIMESTAMP})" })
+    @Insert({ "insert into messageinfo(message, ip, replymsg, create_time) values(#{message}, #{ip}, #{replymsg}, #{create_time, jdbcType=TIMESTAMP})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertMessageinfo( MessageInfo messageinfo);
 
@@ -20,7 +20,7 @@ public interface MessageInfoMapper {
     void insert(MessageInfo messageinfo);
 
     @Update("UPDATE messageinfo SET  replymsg=#{replymsg} WHERE id =#{id}")
-    void update(@Param("messageinfo") MessageInfo messageinfo);
+    void update(  MessageInfo messageinfo);
 
     @Delete("DELETE FROM users WHERE id =#{id}")
     void delete(@Param("id") Long id);

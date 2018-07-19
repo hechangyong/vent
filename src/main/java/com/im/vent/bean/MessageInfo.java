@@ -3,7 +3,7 @@ package com.im.vent.bean;
 import java.util.Date;
 
 public class MessageInfo {
-    private String id;
+    private Long id;
     private String message;
     private String ip;
     private String replymsg;
@@ -17,11 +17,11 @@ public class MessageInfo {
 
     public MessageInfo() { }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

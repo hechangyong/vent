@@ -31,12 +31,13 @@ public class MyController {
         logger.info("msg: " + msg);
         String ip = httpClientUtil.getIp(request);
         logger.info("ip: " + ip);
-
-        server.saveMessage(new MessageInfo(msg, ip));
-        return server.getReturnMsgfromBaidu(msg);
+        MessageInfo messageInfo = new MessageInfo(msg, ip);
+        server.saveMessage(messageInfo);
+        String baiduReply = server.getReturnMsgfromBaidu(msg);
+        server.updateMessageById(messageInfo.getId(), baiduReply);
+        return baiduReply;
 
     }
-
 
 
 }
