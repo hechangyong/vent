@@ -5,6 +5,8 @@ import com.im.vent.baiduapi.UnitService;
 import com.im.vent.baiduapi.bean.BaiduInfo;
 import com.im.vent.bean.BaiduToken;
 import com.im.vent.bean.BaiduTokenMapper;
+import com.im.vent.bean.MessageInfo;
+import com.im.vent.bean.MessageInfoMapper;
 import com.im.vent.controller.MyController;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +29,9 @@ public class MyServer {
     @Autowired
     private BaiduTokenMapper baiduTokenMapper;
 
+    @Autowired
+    private MessageInfoMapper messageInfoMapper;
+
     public BaiduToken getBaiduToken(String msg) {
         BaiduToken msgs = AuthService.getAuth(baiduInfo.getAk(), baiduInfo.getSk());
         baiduTokenMapper.insert(msgs);
@@ -34,6 +39,11 @@ public class MyServer {
         logger.info("msgs：" + msgs);
         logger.info("msgs：" + s);
         return msgs;
+    }
+
+
+    public void saveMessage(MessageInfo messageInfo) {
+        messageInfoMapper.insertMessageinfo(messageInfo);
     }
 
 

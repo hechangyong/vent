@@ -50,8 +50,9 @@ public class UnitService {
 //            String accessToken =  "24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509";
             String result = HttpUtil.post(talkUrl, token, "application/json", params);
             JSONObject jsonObject = new JSONObject(result);
+            JSONObject jsonObject0 = jsonObject.getJSONObject("result");
 
-            JSONObject jsonObject1 = jsonObject.getJSONObject("response");
+            JSONObject jsonObject1 = jsonObject0.getJSONObject("response");
             JSONArray jsonArray =  jsonObject1.getJSONArray("action_list");
             JSONObject jsonArray0 =  jsonArray.getJSONObject(0);
             return (String) jsonArray0.get("say");
