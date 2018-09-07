@@ -22,7 +22,7 @@ public class UnitService {
      * https://ai.baidu.com/file/470B3ACCA3FE43788B5A963BF0B625F3
      * 下载
      */
-    public String utterance(String msg, String user_id, String token) {
+    public static  String utterance(String msg, String user_id, String token) {
         // 请求URL
         String talkUrl = "https://aip.baidubce.com/rpc/2.0/unit/bot/chat";
         try {
@@ -44,7 +44,7 @@ public class UnitService {
                     "   \"updates\":\"\"," +
                     "   \"user_id\":\""+user_id+"\"" +
                     "}," +
-                    "\"bot_id\":7835," +
+                    "\"bot_id\":5," +
                     "\"version\":\"2.0\"" +
                     "}";
 //            String accessToken =  "24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509";
@@ -66,6 +66,6 @@ public class UnitService {
     public static void main(String[] args) {
 
 
-//           utterance("烦","001","");
+        System.out.println(utterance("哈哈，晚了！?","001","24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509"));
     }
 }

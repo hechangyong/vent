@@ -13,4 +13,11 @@ public class DateUtils {
     public static  SimpleDateFormat yyyyMMddSDF = new SimpleDateFormat(yyyyMMdd);
 
 
+    public static void main(String[] args) {
+        String urlPrefix = "http://activitytest.minshenglife.com/stargate_i/rest/casasda";
+        urlPrefix =  urlPrefix.substring(urlPrefix.indexOf("/stargate") );
+        System.out.println(urlPrefix);
+
+    }
+
 }
