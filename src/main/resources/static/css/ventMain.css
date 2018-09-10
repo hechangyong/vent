@@ -48,6 +48,14 @@
     color:#fff;
     padding:5px 10px;
 }
+.centerword span {
+    display:inline-block;
+    background: #cc2c17;
+    border-radius:10px;
+    color:#fff;
+    margin-left: 40%;
+    margin-right: 15%;
+}
 .btalk{
     margin:10px;
     text-align:right;

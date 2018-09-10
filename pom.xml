@@ -14,11 +14,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.0.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
-        <netty.version>4.1.1.Final</netty.version>
+        <!--<netty.version>4.1.1.Final</netty.version>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -73,15 +73,16 @@
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
         </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-common</artifactId>
-            <version>${netty.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>io.netty</groupId>-->
+            <!--<artifactId>netty-common</artifactId>-->
+            <!--<version>${netty.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>${netty.version}</version>
+            <!--<version>${netty.version}</version>-->
+            <version>4.1.1.Final</version>
         </dependency>
     </dependencies>
 
@@ -93,6 +94,45 @@
             </plugin>
         </plugins>
     </build>
+
+
+    <repositories>
+        <repository>
+            <id>nexus_public</id>
+            <url>http://10.0.22.18/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://10.0.22.18/repository/dev5-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://10.0.22.18/repository/dev5-snapshots/</url>
+        </snapshotRepository>
+
+    </distributionManagement>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus_public</id>
+            <url>http://10.0.22.18/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 
 </project>

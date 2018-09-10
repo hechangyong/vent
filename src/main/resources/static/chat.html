@@ -33,22 +33,23 @@
                 $('#connect').click(function () {
                     if (ws == null || ws.readyState != 1) {
                         ws = new WebSocket($('#url').val());
+                        alert("ws.readyState: " + ws.readyState);
                         ws.onerror = function (e) {
                             log('Error : ' + e.message)
-                        }
+                        };
 
                         ws.onopen = function () {
-                            log('connected')
+                            log('connected');
                             ws.send("dddddd")
-                        }
+                        };
 
                         ws.onclose = function () {
                             log('disconnected')
-                        }
+                        };
 
                         ws.onmessage = function (d) {
                             log('Response : ' + d.data)
-                        }
+                        };
 
                         $('#send').click(function () {
                             var msg = $('#msg').val();
@@ -61,7 +62,7 @@
                         })
 
                     } else {
-                        log('closing connection')
+                        log('closing connection');
                         ws.close()
                     }
                 })

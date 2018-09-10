@@ -1,8 +1,10 @@
 package com.im.vent.bean;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component
 public interface MessageInfoMapper {
 
 //    private String message;

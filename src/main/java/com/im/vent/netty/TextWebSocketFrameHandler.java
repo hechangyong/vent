@@ -13,7 +13,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
  */
 //扩展 SimpleChannelInboundHandler，并处理 TextWebSocketFrame 消息
 public class TextWebSocketFrameHandler
-    extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+        extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     private final ChannelGroup group;
 
     public TextWebSocketFrameHandler(ChannelGroup group) {
@@ -22,13 +22,12 @@ public class TextWebSocketFrameHandler
 
     //重写 userEventTriggered()方法以处理自定义事件
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx,
-        Object evt) throws Exception {
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         //如果该事件表示握手成功，则从该 ChannelPipeline 中移除HttpRequest-Handler，因为将不会接收到任何HTTP消息了
         if (evt == WebSocketServerProtocolHandler.ServerHandshakeStateEvent.HANDSHAKE_COMPLETE) {
             ctx.pipeline().remove(HttpRequestHandler.class);
             //(1) 通知所有已经连接的 WebSocket 客户端新的客户端已经连接上了
-            group.writeAndFlush(new TextWebSocketFrame( "Client " + ctx.channel() + " joined"));
+            group.writeAndFlush(new TextWebSocketFrame("system : 又有陌生小仙女上线啦，</br> 当前有【" + group.size() + "】位小仙女在线"));
             //(2) 将新的 WebSocket Channel 添加到 ChannelGroup 中，以便它可以接收到所有的消息
             group.add(ctx.channel());
         } else {

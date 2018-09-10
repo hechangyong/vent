@@ -4,6 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.im.vent.bean.BaiduTokenMapper">
 
+    <select id="getOneByDate" resultType="BaiduToken">
+        SELECT
+        ID as id,
+        token as token,
+        session_key as session_key,
+        scope as scope,
+        refresh_token as refresh_token,
+        session_secret as session_secret,
+        expires_in as expires_in,
+        date as date
+        FROM baiduToken
+        order by date desc limit 0,1
+    </select>
     <select id="getOne" resultType="BaiduToken">
         SELECT
         ID as id,

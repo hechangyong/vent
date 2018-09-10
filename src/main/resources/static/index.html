@@ -9,12 +9,53 @@
     <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript">
         //
-        window.onload = function () {
+        $(function () {
             var Words = document.getElementById("words");
             var Who = document.getElementById("who");
             var TalkWords = document.getElementById("talkwords");
             var TalkSub = document.getElementById("talksub");
-            TalkSub.onclick = function () {
+            if (!WebSocket) {
+                $('#not-supported').show()
+            } else {
+                var ws = null;
+                if (ws == null || ws.readyState != 1) {
+                    ws = new WebSocket('ws://101.132.70.15:9000/ws');
+                    ws.onerror = function (e) {
+                        appendMessage('Error : ' + e.message)
+                    };
+
+                    ws.onopen = function () {
+                        appendCenterMsg('有小仙女上线啦');
+                    };
+
+                    ws.onclose = function () {
+                        appendCenterMsg('disconnected')
+                    };
+
+                    ws.onmessage = function (d) {
+                        console.log("d: " + d);
+                        appendMessage(d.data)
+                    };
+
+                    // $('#send').click(function () {
+                    //     var msg = $('#msg').val();
+                    //     $('#msg').val('');
+
+                    // if (ws.send(msg)) {
+                    //     appendMessage('Message sent')
+                    // } else {
+                    //     appendMessage('Message not sent')
+                    // }
+                    // })
+
+                } else {
+                    appendMessage('closing connection');
+                    ws.close()
+                }
+            }
+
+
+            $('#talksub').click(function () {
                 //定义空字符串
                 var str = "";
                 if (TalkWords.value == "") {
@@ -28,10 +69,14 @@
                 Words.innerHTML = Words.innerHTML + str;
 
                 sendMessage(TalkWords.value);
-            }
+                ws.send(TalkWords.value);
 
-        }
 
+                $('#talkwords').val("");
+            });
+
+
+        });
 
         function sendMessage(msg) {
             $.ajax({
@@ -40,12 +85,28 @@
                 data: {"msg": msg},
                 dataType: "text",
                 success: function (data) {
-                    var str = "";
-                    var Words = document.getElementById("words");
-                    str = '<div class="atalk"><span>  ' + data + ' </span></div>';
-                    Words.innerHTML = Words.innerHTML + str;
+                    // appendMessage(data);
                 }
             });
+        }
+
+        function appendMessage(msg) {
+            var str = "";
+            var className = "atalk";
+            if (msg.indexOf("system") > 0) {
+                className = "centerword";
+                msg = msg.substr(msg.lastIndexOf(":") + 1);
+            }
+            var Words = document.getElementById("words");
+            str = '<div class= ' + className + '><span>  ' + msg + ' </span></div>';
+            Words.innerHTML = Words.innerHTML + str;
+        }
+
+        function appendCenterMsg(msg) {
+            var str = "";
+            var Words = document.getElementById("words");
+            str = '<div class="centerword"><span>  ' + msg + ' </span></div>';
+            Words.innerHTML = Words.innerHTML + str;
         }
 
 
@@ -56,11 +117,11 @@
     <div class="talk_show" style=" background-image: url(img/1.jpg); " id="words">
         <div class="atalk"><span id="asay">朋友最近是否经常感觉事业不顺，夫妻不和，霉运不断的？其实这是你的五行磁场紊乱所致。</span></div>
         <div class="atalk"><span id="asay">可以多请勇哥吃吃饭，聊聊天。就可以理顺你的五行磁场啦</span></div>
-      </div>
+    </div>
     <div class="talk_input">
         <!--<select class="whotalk" id="who">-->
-            <!--<option value="0">A说：</option>-->
-            <!--<option value="1">B说：</option>-->
+        <!--<option value="0">A说：</option>-->
+        <!--<option value="1">B说：</option>-->
         <!--</select>-->
         <input type="text" class="talk_word" id="talkwords">
         <input type="button" value="发送" class="talk_sub" id="talksub">

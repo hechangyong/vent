@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class MyServer {
     private static Logger logger = LoggerFactory.getLogger(MyController.class);
@@ -27,35 +30,49 @@ public class MyServer {
     UnitService unitService;
 
     @Autowired
-    private BaiduTokenMapper baiduTokenMapper;
+    BaiduTokenMapper baiduTokenMapper;
 
     @Autowired
-    private MessageInfoMapper messageInfoMapper;
+    MessageInfoMapper messageInfoMapper;
 
-    public BaiduToken getBaiduToken(String msg) {
-        BaiduToken msgs = AuthService.getAuth(baiduInfo.getAk(), baiduInfo.getSk());
-        baiduTokenMapper.insert(msgs);
-        BaiduToken s = baiduTokenMapper.getOne(msgs.getId());
-        logger.info("msgs：" + msgs);
-        logger.info("msgs：" + s);
-        return msgs;
+    public Map<String, String> baiduTokenMap = new HashMap<>();
+
+    /**
+     * 更新百度 token
+     */
+    public void updateBaiduToken() {
+        try {
+            BaiduToken msgs = AuthService.getAuth(baiduInfo.getAk(), baiduInfo.getSk());
+            baiduTokenMapper.insert(msgs);
+            baiduTokenMap.put("baidutoken", msgs.getToken());
+        } catch (Exception e) {
+            logger.error("更新百度token出现异常：{}", e.getMessage(), e);
+        }
     }
 
 
-
-
-
-    public String getReturnMsgfromBaidu(String msg) {
-        String userid = "88888";
-            String accessToken =  "24.04caed631a99a706b68d747e1cb38370.2592000.1534493845.282335-11547509";
+    public String getReturnMsgfromBaidu(String msg, String userid) {
+        String accessToken = getToken();
         return unitService.utterance(msg, userid, accessToken);
     }
+
+    public String getToken() {
+        if (baiduTokenMap.get("baidutoken") != null) {
+            return baiduTokenMap.get("baidutoken");
+        } else {
+            BaiduToken msgs = baiduTokenMapper.getOneByDate();
+            logger.info("缓存中没有token, 查询数据库【{}】", msgs);
+            return msgs.getToken();
+        }
+    }
+
 
     public int saveMessage(MessageInfo messageInfo) {
         return messageInfoMapper.insertMessageinfo(messageInfo);
     }
 
     public void updateMessageById(Long id, String baiduReply) {
+        logger.info("更新数据【{}】【{}】", id, baiduReply);
         MessageInfo messageInfo = new MessageInfo();
         messageInfo.setId(id);
         messageInfo.setReplymsg(baiduReply);
