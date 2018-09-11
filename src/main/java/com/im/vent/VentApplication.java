@@ -12,7 +12,7 @@ public class VentApplication {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(VentApplication.class, args);
-		ChatServer.main();
+		ChatServer.imEntrance();
 	}
 }
 

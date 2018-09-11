@@ -58,7 +58,7 @@ public class ChatServer {
         group.shutdownGracefully();
     }
 
-    public static void main() throws Exception {
+    public static void imEntrance() throws Exception {
 
         int port = 9000;
         final ChatServer endpoint = new ChatServer();
