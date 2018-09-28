@@ -19,7 +19,7 @@
             } else {
                 var ws = null;
                 if (ws == null || ws.readyState != 1) {
-                    ws = new WebSocket('ws://127.0.0.1:9000/ws');
+                    ws = new WebSocket('ws://101.132.70.15:9000/ws');
                     ws.onerror = function (e) {
                         appendMessage('Error : ' + e.message)
                     };
