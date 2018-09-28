@@ -62,6 +62,7 @@ public class MyServer {
         } else {
             BaiduToken msgs = baiduTokenMapper.getOneByDate();
             logger.info("缓存中没有token, 查询数据库【{}】", msgs);
+            baiduTokenMap.put("baidutoken", msgs.getToken());
             return msgs.getToken();
         }
     }

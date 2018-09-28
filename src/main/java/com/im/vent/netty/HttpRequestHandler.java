@@ -47,18 +47,13 @@ public class HttpRequestHandler  extends SimpleChannelInboundHandler<FullHttpReq
             }
             //读取 caht.html
             RandomAccessFile file = new RandomAccessFile(INDEX, "r");
-            HttpResponse response = new DefaultHttpResponse(
-                    request.getProtocolVersion(), HttpResponseStatus.OK);
-            response.headers().set(
-                    HttpHeaders.Names.CONTENT_TYPE,
-                    "text/plain; charset=UTF-8");
+            HttpResponse response = new DefaultHttpResponse(request.getProtocolVersion(), HttpResponseStatus.OK);
+            response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/plain; charset=UTF-8");
             boolean keepAlive = HttpHeaders.isKeepAlive(request);
             //如果请求了keep-alive，则添加所需要的 HTTP 头信息
             if (keepAlive) {
-                response.headers().set(
-                        HttpHeaders.Names.CONTENT_LENGTH, file.length());
-                response.headers().set( HttpHeaders.Names.CONNECTION,
-                        HttpHeaders.Values.KEEP_ALIVE);
+                response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, file.length());
+                response.headers().set( HttpHeaders.Names.CONNECTION,HttpHeaders.Values.KEEP_ALIVE);
             }
             //(3) 将 HttpResponse 写到客户端
             ctx.write(response);

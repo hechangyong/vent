@@ -2,10 +2,7 @@ package com.im.vent.netty;
 
 import com.im.vent.controller.MyController;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -18,25 +15,26 @@ import java.net.InetSocketAddress;
 
 /**
  * 代码清单 12-4 引导服务器
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class ChatServer {
     private static Logger logger = LoggerFactory.getLogger(MyController.class);
 
     //创建 DefaultChannelGroup，其将保存所有已经连接的 WebSocket Channel
-    private final ChannelGroup channelGroup =
-            new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
+    private final ChannelGroup channelGroup = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
     private final EventLoopGroup group = new NioEventLoopGroup();
+    private final EventLoopGroup groupworker = new NioEventLoopGroup();
     private Channel channel;
 
     public ChannelFuture start(InetSocketAddress address) {
         logger.info("ChatServer start ");
         //引导服务器
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(group)
+        bootstrap.group(group, groupworker)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(createInitializer(channelGroup));
+                .childHandler(createInitializer(channelGroup))
+                .option(ChannelOption.SO_BACKLOG, 1024)
+                .childOption(ChannelOption.SO_KEEPALIVE, true);
+
         ChannelFuture future = bootstrap.bind(address);
         future.syncUninterruptibly();
         channel = future.channel();

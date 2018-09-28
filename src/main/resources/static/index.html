@@ -19,7 +19,7 @@
             } else {
                 var ws = null;
                 if (ws == null || ws.readyState != 1) {
-                    ws = new WebSocket('ws://101.132.70.15:9000/ws');
+                    ws = new WebSocket('ws://127.0.0.1:9000/ws');
                     ws.onerror = function (e) {
                         appendMessage('Error : ' + e.message)
                     };
@@ -63,11 +63,6 @@
                     alert("消息不能为空");
                     return;
                 }
-                str = '<div class="btalk"><span>  ' + TalkWords.value + ' </span></div>';
-
-                // 将之前的内容与要发的内容拼接好 提交
-                Words.innerHTML = Words.innerHTML + str;
-
                 sendMessage(TalkWords.value);
                 ws.send(TalkWords.value);
 
@@ -85,7 +80,7 @@
                 data: {"msg": msg},
                 dataType: "text",
                 success: function (data) {
-                    // appendMessage(data);
+                    appendMessage(data);
                 }
             });
         }
@@ -95,8 +90,12 @@
             var className = "atalk";
             if (msg.indexOf("system") > 0) {
                 className = "centerword";
-                msg = msg.substr(msg.lastIndexOf(":") + 1);
+
+            } else  if (msg.indexOf("self") > 0) {
+                className = "btalk";
+
             }
+            msg = msg.substr(msg.lastIndexOf(":") + 1);
             var Words = document.getElementById("words");
             str = '<div class= ' + className + '><span>  ' + msg + ' </span></div>';
             Words.innerHTML = Words.innerHTML + str;
@@ -114,9 +113,8 @@
 </head>
 <body>
 <div class="talk_con">
-    <div class="talk_show" style=" background-image: url(img/1.jpg); " id="words">
-        <div class="atalk"><span id="asay">朋友最近是否经常感觉事业不顺，夫妻不和，霉运不断的？其实这是你的五行磁场紊乱所致。</span></div>
-        <div class="atalk"><span id="asay">可以多请勇哥吃吃饭，聊聊天。就可以理顺你的五行磁场啦</span></div>
+    <div class="talk_show" style=" background-image: url(img/2.jpg);background-size: 580px; " id="words">
+         <div class="centerword"><span id="ss">多人聊天室</span></div>
     </div>
     <div class="talk_input">
         <!--<select class="whotalk" id="who">-->
